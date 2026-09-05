@@ -1,0 +1,12 @@
+# Python virtual environment
+venv/
+__pycache__/
+
+# Large dataset images (Keep code clean)
+*.zip
+*.tar.gz
+dataset/raw/
+
+# Trained heavy weight files
+*.pth
+*.onnx
