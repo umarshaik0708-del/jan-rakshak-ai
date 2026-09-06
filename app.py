@@ -6,6 +6,7 @@ import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image, ImageChops, ImageEnhance
 from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from mrz_math import verify_passport_mrz
 from verhoeff_math import validate_aadhaar_verhoeff
@@ -22,6 +23,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def serve_index():
+    return FileResponse("index.html")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_PATH = "best_forgery_ela_model.pth"
