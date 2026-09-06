@@ -1714,8 +1714,30 @@
       if (!quickTopic) input.value = '';
       container.scrollTop = container.scrollHeight;
 
-      setTimeout(() => {
-        const responseText = getLocalizedAnswer(query);
+            // Query Live Python FastAPI Chat Copilot Backend
+      (async () => {
+        let responseText = "";
+        try {
+          const formData = new FormData();
+          formData.append("query", query);
+          formData.append("lang", currentLang);
+
+          const res = await fetch("http://127.0.0.1:8000/api/chat", {
+            method: "POST",
+            body: formData
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            responseText = data.response;
+          }
+        } catch (err) {
+          console.warn("⚠️ Chatbot API fallback:", err);
+          responseText = getLocalizedAnswer(query);
+        }
+
+        if (!responseText) responseText = getLocalizedAnswer(query);
+
         const aiBubble = document.createElement('div');
         aiBubble.className = "flex items-start space-x-2";
         aiBubble.innerHTML = `
@@ -1729,7 +1751,7 @@
         container.appendChild(aiBubble);
         lucide.createIcons();
         container.scrollTop = container.scrollHeight;
-      }, 500);
+      })();
     }
 
     function getDisplayPrompt(topic) {

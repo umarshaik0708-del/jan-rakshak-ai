@@ -11,6 +11,7 @@ from mrz_math import verify_passport_mrz
 from verhoeff_math import validate_aadhaar_verhoeff
 from biometrics_aifr import match_faces_aifr
 from ocr_engine import process_document_ocr
+from chatbot_copilot import answer_copilot_query
 
 app = FastAPI(title="Jan Rakshak AI - National Screening Backend", version="2.0")
 
@@ -148,6 +149,18 @@ async def verify_biometrics(
 
     match_result = match_faces_aifr(doc_img, live_img)
     return match_result
+@app.post("/api/chat")
+async def chat_copilot(
+    query: str = Form(...),
+    lang: str = Form("en"),
+    context: str = Form("")
+):
+    """
+    Sovereign AI Copilot Endpoint with Security Guardrails.
+    Evaluates queries, enforces domain restrictions, and provides forensic guidance.
+    """
+    response = answer_copilot_query(query=query, lang=lang)
+    return {"query": query, "response": response, "lang": lang}
 
 if __name__ == "__main__":
     import uvicorn
