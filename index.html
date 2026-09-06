@@ -1810,82 +1810,149 @@
         3. ধারা 340 BNS অনুযায়ী ব্যবস্থা নিন।`,
         default: `🛡️ <strong>জন রক্ষক AI:</strong> গাণিতিক চেকসাম এবং ELA বিশ্লেষণের মাধ্যমে নথি পরীক্ষা করে।`
       },
-      en: {
-        law: `⚖️ <strong>Legal Framework (Indian Penal Law):</strong><br>
-        1. <strong>BNS Section 336 & 340</strong> (formerly IPC 467/468): Forgery of identity documents with intent to cheat is punishable by up to <strong>7 years imprisonment & fine</strong>.<br>
-        2. <strong>Aadhaar Act Section 34/35</strong>: Impersonation or unauthorized modification of identity data is a cognizable, non-bailable offense.`,
-        mrz: `🔢 <strong>ICAO Doc 9303 MRZ Engine:</strong><br>
-        Passports use repetitive weights [7, 3, 1]. <em>Check Digit = (∑ char × weight) mod 10</em>. Altered birth dates or numbers fail this formula instantly!`,
-        sop: `📋 <strong>Standard Operating Procedure (SOP) for Officers:</strong><br>
-        1. <strong>Do NOT return the document</strong> to the bearer.<br>
-        2. <strong>Export Forensic PDF Report</strong> from Jan Rakshak AI to log the cryptographic hash.<br>
-        3. Detain individual at gate and file Form-4 Incident Report under Section 340 BNS.`,
-        digitalTwin: `🪪 <strong>Verified Digital Twin (Smart e-ID):</strong><br>
-        When a document passes all forensic checks (Verhoeff/MRZ Checksum + ELA Noise Analysis), the system generates a tamper-proof <strong>Digital Twin Smart Card</strong> equipped with an encrypted <strong>SHA-256 QR Code</strong>. Checkpoint officers can scan this QR code on offline hand-held terminals to verify the bearer instantly without contacting central servers.`,
-        biometrics: `👤 <strong>Age-Invariant Face Recognition (AIFR) over an 8-Year Gap:</strong><br>
-        • <strong>Why Standard AI Fails:</strong> Surface features (skin wrinkles, hair, weight, beard) change over time.<br>
-        • <strong>The Cranial Bone Solution:</strong> Jan Rakshak AI extracts <strong>Permanent Skull Landmark Ratios</strong> (inter-pupillary eye distance, eye-to-nose drop ratio, and jawbone triangle). Adult skull geometry remains mathematically constant after age 18.<br>
-        • <strong>3D Liveness:</strong> Laplacian micro-texture variance detects and blocks 2D photo prints and digital screen spoofs!`,
-        scan: `📄 <strong>How to Scan a Document on Jan Rakshak AI:</strong><br>
-        1. Click the <strong>'1. Document Scanner'</strong> tab.<br>
-        2. Click <strong>'Upload ID'</strong> or <strong>'Live Camera'</strong> to input an Aadhaar, Passport, or PAN.<br>
-        3. The system executes EasyOCR and verifies mathematical checksums.<br>
-        4. Drag the <strong>ELA Heatmap Slider</strong> to check for Photoshopped modifications.<br>
-        5. Click <strong>'Proceed to Biometrics →'</strong> to match the live bearer!`,
-        ela: `🔬 <strong>How ELA (Error Level Analysis) Works:</strong><br>
-        • <strong>Dark / Uniform pixels</strong> = Authentic unmodified image.<br>
-        • <strong>Glowing Red / Bright Hotspot</strong> = Spliced, copy-pasted, or Photoshopped text/dates.<br>
-        • Drag the comparison slider horizontally over the ID to reveal compression disparities.`,
-        pdf: `📑 <strong>Courtroom-Admissible PDF Audit Report:</strong><br>
-        Click <strong>'Export Comprehensive Forensic Report'</strong> or <strong>'Print Audit'</strong> to generate an official cryptographic evidence document containing timestamps, check-digit breakdowns, ELA matrices, and SHA-256 digital signatures for court submission.`,
-        guardrail: `⚠️ <strong>Access Denied (Sovereign Node Guardrail):</strong> Jan Rakshak AI Copilot is strictly restricted to identity document forensics, mathematical checksums, ELA analysis, and Indian penal laws (BNS / Aadhaar Act).`,
-        default: `🛡️ <strong>Jan Rakshak AI Copilot:</strong> I can assist you with any feature on this platform: <strong>1. Document Scanner</strong>, <strong>2. ELA Heatmaps</strong>, <strong>3. Verhoeff/MRZ Checksums</strong>, <strong>4. AIFR Face Biometrics</strong>, <strong>5. Verified Digital Twins</strong>, and <strong>6. BNS Legal Framework</strong>.`
-      }
+    const siteKnowledge = {
+      layers: `🏛️ <strong>The 5-Layer Forensic Screening Architecture of Jan Rakshak AI:</strong><br><br>
+        1. <strong>Layer 1: Discrete Mathematical Checksums</strong> — Validates ICAO Doc 9303 [7, 3, 1] mod 10 for Passports and UIDAI Dihedral Group D5 for Aadhaar in 0.001s.<br>
+        2. <strong>Layer 2: Error Level Analysis (ELA)</strong> — Computes pixel re-quantization error residuals to illuminate Photoshopped text/dates.<br>
+        3. <strong>Layer 3: Age-Invariant Biometrics (AIFR)</strong> — Matches permanent cranial bone ratios across an 8–10 year age gap with 3D liveness anti-spoofing.<br>
+        4. <strong>Layer 4: Verified Digital Twin</strong> — Issues an encrypted SHA-256 smart digital identity card and QR code for offline checkpoint verification.<br>
+        5. <strong>Layer 5: Legal Assistant & Cryptographic Audit</strong> — Provides on-duty BNS legal guidance and generates courtroom-admissible PDF evidence reports.`,
+
+      navigation: `🧭 <strong>How to Use Jan Rakshak AI (Step-by-Step User Guide):</strong><br><br>
+        • <strong>Step 1:</strong> Go to the <strong>'1. Document Scanner'</strong> tab in the top navigation.<br>
+        • <strong>Step 2:</strong> Click <strong>'Upload ID'</strong> to select an Aadhaar, Passport, or PAN card (or click <strong>'Live Camera'</strong>).<br>
+        • <strong>Step 3:</strong> EasyOCR extracts details while the <strong>ELA Heatmap Slider</strong> reveals any digital alterations.<br>
+        • <strong>Step 4:</strong> Click <strong>'Proceed to Face Biometrics →'</strong> to match the ID portrait against the live person.<br>
+        • <strong>Step 5:</strong> Click <strong>'Export Comprehensive Forensic Report'</strong> to print the signed audit report!`,
+
+      digitalTwin: `🪪 <strong>Verified Digital Twin (Smart e-ID Card):</strong><br>
+        When an ID passes all mathematical and ELA forensic checks, the system generates a tamper-proof <strong>Digital Twin Smart Card</strong> with a unique <strong>SHA-256 QR Code</strong>. Officers at offline checkpoints can scan this QR code on handheld terminals to verify authenticity in milliseconds without needing internet access!`,
+
+      biometrics: `👤 <strong>Age-Invariant Face Recognition (AIFR) over 8-Year Age Gap:</strong><br>
+        • <strong>The Problem:</strong> Surface features (skin wrinkles, hair, beard, weight) change as people age, causing ordinary face matchers to fail.<br>
+        • <strong>The Cranial Bone Solution:</strong> Jan Rakshak AI extracts <strong>Permanent Skull Landmark Ratios</strong> (inter-pupillary eye distance, eye-to-nose drop ratio, and jawbone triangle) which remain mathematically constant after age 18.<br>
+        • <strong>3D Liveness Anti-Spoof:</strong> Analyzes optical micro-texture variance to block 2D paper printouts and digital screen replays.`,
+
+      ela: `🔬 <strong>Error Level Analysis (ELA) Heatmap Guide:</strong><br>
+        • <strong>Dark / Uniform Background:</strong> Authentic unmodified document.<br>
+        • <strong>Glowing Red / Bright Hotspot:</strong> Spliced, copy-pasted, or Photoshopped text/dates.<br>
+        • <strong>The Slider:</strong> Drag the comparison slider horizontally over the ID to see the original vs. compression noise disparity.`,
+
+      supportedDocs: `📄 <strong>Supported Identity Documents:</strong><br>
+        1. <strong>Indian Aadhaar Card:</strong> 12-digit UID extraction + UIDAI Verhoeff Dihedral D5 Checksum.<br>
+        2. <strong>International & Indian Passports:</strong> 2-line ICAO Doc 9303 MRZ extraction + [7, 3, 1] modulo 10 Checksum.<br>
+        3. <strong>Indian PAN Card:</strong> 10-character alphanumeric structure + Entity validation (Individual, Company, Firm, Trust).`,
+
+      pdfReport: `📑 <strong>Courtroom-Admissible Forensic PDF Report:</strong><br>
+        Click <strong>'Export Comprehensive Forensic Report'</strong> or <strong>'Print Audit'</strong> to produce an official legal evidence document featuring timestamps, check-digit breakdowns, ELA compression matrices, and SHA-256 digital signatures for submission under the Indian Evidence Act / BSA.`,
+
+      law: `⚖️ <strong>Applicable Indian Penal Laws (BNS & Aadhaar Act):</strong><br>
+        1. <strong>BNS Sections 336 & 340</strong> (formerly IPC 467/468): Forging identity documents to cheat is punishable by up to <strong>7 years imprisonment and fine</strong>.<br>
+        2. <strong>Aadhaar Act Section 34/35</strong>: Unauthorized alteration of identity data or impersonation is a non-bailable offense.`,
+
+      sop: `📋 <strong>Officer Standard Operating Procedure (SOP):</strong><br>
+        1. <strong>Do NOT return the document</strong> to the bearer if flagged as FORGED.<br>
+        2. <strong>Export the Forensic PDF Report</strong> to record the cryptographic hash.<br>
+        3. Detain the individual and file a Form-4 Incident Report under Section 340 BNS.`,
+
+      offlinePrivacy: `🔒 <strong>Offline Privacy & Edge Execution:</strong><br>
+        Jan Rakshak AI is built on a <strong>Zero-Trust Edge Architecture</strong>. All PyTorch neural inference, EasyOCR processing, and mathematical checksum calculations run directly on your local device with zero cloud API dependency. Citizen data never leaves the security checkpoint.`,
+
+      languages: `🇮🇳 <strong>Multilingual Regional Language Support:</strong><br>
+        Jan Rakshak AI supports <strong>5 official Indian languages</strong>: English, Hindi (हिंदी), Telugu (తెలుగు), Tamil (தமிழ்), and Bengali (বাংলা). Click the language dropdown in the top navigation bar to switch instantly!`,
+
+      troubleshooting: `❓ <strong>Why Was a Document Flagged as Forgery?</strong><br>
+        • <strong>Checksum Failure:</strong> The 12-digit Aadhaar UID or Passport MRZ line failed its mathematical formula (indicating manual editing).<br>
+        • <strong>ELA Compression Anomaly:</strong> The ELA engine found unnatural high-frequency compression noise over text or portrait fields.<br>
+        • <strong>Chronological Paradox:</strong> Date of birth and document issue dates contain logical impossibilities.`,
+
+      about: `🛡️ <strong>About Jan Rakshak AI (जन रक्षक AI):</strong><br>
+        Developed for <strong>Smart India Hackathon (Problem Statement ID: SIH26188)</strong>, Jan Rakshak AI is a sovereign, multi-layered identity screening platform designed to eliminate fake Aadhaar cards, forged passports, and identity fraud at national scale.`,
+
+      guardrail: `⚠️ <strong>Access Denied (Website Helpdesk Guardrail):</strong> I am the Jan Rakshak AI Assistant! I am strictly dedicated to helping you use this screening website, understand document forensics, and navigate the verification features.`
     };
 
     function getLocalizedAnswer(q) {
-      const lower = q.toLowerCase();
-      const langPack = aiKnowledge[currentLang] || aiKnowledge.en;
+      const lower = q.toLowerCase().trim();
 
-      // Guardrail check for off-topic questions
-      const offTopic = ['joke', 'poem', 'song', 'game', 'recipe', 'president', 'weather', 'movie', 'malware'];
+      // Guardrail for off-topic abuse
+      const offTopic = ['joke', 'poem', 'song', 'game', 'recipe', 'president', 'weather', 'movie', 'malware', 'bitcoin', 'write code for'];
       if (offTopic.some(k => lower.includes(k))) {
-        return langPack.guardrail || aiKnowledge.en.guardrail;
+        return siteKnowledge.guardrail;
       }
 
-      if (lower.includes('digital twin') || lower.includes('twin') || lower.includes('qr') || lower.includes('smart card')) {
-        return langPack.digitalTwin || aiKnowledge.en.digitalTwin;
+      // 1. Five Layers / Architecture
+      if (lower.includes('5 layer') || lower.includes('five layer') || lower.includes('layer') || lower.includes('architecture') || lower.includes('overview') || lower.includes('system')) {
+        return siteKnowledge.layers;
       }
 
-      if (lower.includes('face') || lower.includes('biometric') || lower.includes('age') || lower.includes('gap') || lower.includes('year') || lower.includes('aifr') || lower.includes('cranial') || lower.includes('bone') || lower.includes('liveness')) {
-        return langPack.biometrics || aiKnowledge.en.biometrics;
+      // 2. How to use / navigation
+      if (lower.includes('how to use') || lower.includes('how to scan') || lower.includes('how do i') || lower.includes('guide') || lower.includes('steps') || lower.includes('help me') || lower.includes('navigate') || lower.includes('start')) {
+        return siteKnowledge.navigation;
       }
 
-      if (lower.includes('scan') || lower.includes('how to use') || lower.includes('upload') || lower.includes('camera') || lower.includes('step')) {
-        return langPack.scan || aiKnowledge.en.scan;
+      // 3. Digital Twin
+      if (lower.includes('digital twin') || lower.includes('twin') || lower.includes('qr') || lower.includes('smart card') || lower.includes('smart e-doc')) {
+        return siteKnowledge.digitalTwin;
       }
 
-      if (lower.includes('ela') || lower.includes('heatmap') || lower.includes('thermal') || lower.includes('compression') || lower.includes('slider')) {
-        return langPack.ela || aiKnowledge.en.ela;
+      // 4. Biometrics & 8-Year Face Gap
+      if (lower.includes('face') || lower.includes('biometric') || lower.includes('age') || lower.includes('gap') || lower.includes('year') || lower.includes('aifr') || lower.includes('cranial') || lower.includes('bone') || lower.includes('liveness') || lower.includes('spoof')) {
+        return siteKnowledge.biometrics;
       }
 
-      if (lower.includes('pdf') || lower.includes('report') || lower.includes('print') || lower.includes('court') || lower.includes('export') || lower.includes('audit')) {
-        return langPack.pdf || aiKnowledge.en.pdf;
+      // 5. ELA & Heatmaps
+      if (lower.includes('ela') || lower.includes('heatmap') || lower.includes('thermal') || lower.includes('compression') || lower.includes('slider') || lower.includes('error level')) {
+        return siteKnowledge.ela;
       }
 
-      if (lower.includes('law') || lower.includes('bns') || lower.includes('ipc') || lower.includes('penalty') || lower.includes('punish') || lower.includes('చట్టం') || lower.includes('कानून') || lower.includes('சட்டம்') || lower.includes('আইন')) {
-        return langPack.law;
-      }
-      
-      if (lower.includes('mrz') || lower.includes('7-3-1') || lower.includes('checksum') || lower.includes('verhoeff') || lower.includes('d5') || lower.includes('aadhaar') || lower.includes('passport') || lower.includes('pan') || lower.includes('గణితం') || lower.includes('गणित') || lower.includes('கணிதம்') || lower.includes('সূত্র')) {
-        return langPack.mrz;
+      // 6. Supported Documents
+      if (lower.includes('supported') || lower.includes('what document') || lower.includes('types of id') || lower.includes('pan') || lower.includes('aadhaar') || lower.includes('passport')) {
+        return siteKnowledge.supportedDocs;
       }
 
-      if (lower.includes('sop') || lower.includes('protocol') || lower.includes('procedure') || lower.includes('విధానం') || lower.includes('পদ্ধতি')) {
-        return langPack.sop;
+      // 7. PDF Report
+      if (lower.includes('pdf') || lower.includes('report') || lower.includes('print') || lower.includes('audit') || lower.includes('export') || lower.includes('court')) {
+        return siteKnowledge.pdfReport;
       }
 
-      return langPack.default;
+      // 8. Laws & Legal Penalties
+      if (lower.includes('law') || lower.includes('bns') || lower.includes('ipc') || lower.includes('penalty') || lower.includes('punish') || lower.includes('section') || lower.includes('legal')) {
+        return siteKnowledge.law;
+      }
+
+      // 9. Officer SOP
+      if (lower.includes('sop') || lower.includes('protocol') || lower.includes('procedure') || lower.includes('officer') || lower.includes('containment')) {
+        return siteKnowledge.sop;
+      }
+
+      // 10. Offline & Privacy
+      if (lower.includes('offline') || lower.includes('privacy') || lower.includes('cloud') || lower.includes('edge') || lower.includes('data safe') || lower.includes('internet')) {
+        return siteKnowledge.offlinePrivacy;
+      }
+
+      // 11. Languages
+      if (lower.includes('language') || lower.includes('hindi') || lower.includes('telugu') || lower.includes('tamil') || lower.includes('bengali') || lower.includes('translate')) {
+        return siteKnowledge.languages;
+      }
+
+      // 12. Troubleshooting / Rejection
+      if (lower.includes('reject') || lower.includes('fail') || lower.includes('why') || lower.includes('tamper') || lower.includes('forgery detected') || lower.includes('fake')) {
+        return siteKnowledge.troubleshooting;
+      }
+
+      // 13. About the project
+      if (lower.includes('about') || lower.includes('jan rakshak') || lower.includes('sih') || lower.includes('problem statement') || lower.includes('who made')) {
+        return siteKnowledge.about;
+      }
+
+      // Default Friendly Portal Helper
+      return `🛡️ <strong>Jan Rakshak AI Assistant:</strong> I'm here to help you with anything on this portal! You can ask me:
+        <br>• <em>"What are the 5 layers of Jan Rakshak AI?"</em>
+        <br>• <em>"How do I scan a document?"</em>
+        <br>• <em>"What is the Verified Digital Twin?"</em>
+        <br>• <em>"How is a face matched after an 8-year gap?"</em>
+        <br>• <em>"How does the ELA heatmap work?"</em>`;
     }
 
     const translations = {

@@ -109,7 +109,21 @@ OFFLINE_KNOWLEDGE = {
         "hi": "📑 <strong>न्यायालय-मान्य फॉरेंसिक PDF रिपोर्ट:</strong><br><strong>'फॉरेंसिक रिपोर्ट निर्यात करें'</strong> पर क्लिक करके आधिकारिक डिजिटल हस्ताक्षरित रिपोर्ट प्राप्त करें।",
         "te": "📑 <strong>కోర్టు ఆధారిత ఫోరెన్సిక్ PDF నివేదిక:</strong><br>అధికారిక డిజిటల్ సంతకం మరియు SHA-256 హ్యాష్‌తో కూడిన నివేదికను డౌన్‌లోడ్ చేయండి.",
         "ta": "📑 <strong>நீதிமன்ற சான்றளிக்கப்பட்ட PDF அறிக்கை:</strong><br>அதிகாரப்பூர்வ டிஜிட்டல் கையொப்பத்துடன் கூடிய தடயவியல் அறிக்கையை பதிவிறக்கவும்.",
-        "bn": "📑 <strong>আদালতে পেশযোগ্য ফরেনসিক PDF রিপোর্ট:</strong><br>ডিজিটাল স্বাক্ষরযুক্ত পূর্ণাঙ্গ অডিট রিপোর্ট ডাউনলোড করুন।"
+        "bn": "📑 <strong>আদালতে পেশযোগ্য ফরেনসিক PDF রিপোর্ট:</strong><br>ডিজিটাল স্বাক্ষরযুক্ত পূর্ণাঙ্গ অডিট রিপোর্ট ডাউনলোড করুন."
+    },
+    "layers": {
+        "en": "🏛️ <strong>The 5-Layer Forensic Screening Architecture of Jan Rakshak AI:</strong><br><br>1. <strong>Layer 1: Discrete Mathematical Checksums</strong> — ICAO Doc 9303 [7, 3, 1] mod 10 for Passports and UIDAI Dihedral Group D5 for Aadhaar.<br>2. <strong>Layer 2: Error Level Analysis (ELA)</strong> — Computes compression error residuals to illuminate Photoshopped text/dates.<br>3. <strong>Layer 3: Age-Invariant Biometrics (AIFR)</strong> — Matches permanent cranial bone ratios across an 8–10 year age gap with 3D liveness anti-spoofing.<br>4. <strong>Layer 4: Verified Digital Twin</strong> — Issues an encrypted SHA-256 smart digital identity card and QR code.<br>5. <strong>Layer 5: Legal Assistant & Audit</strong> — Provides on-duty BNS legal guidance and courtroom-admissible PDF reports.",
+        "hi": "🏛️ <strong>जन रक्षक AI की 5-स्तरीय फॉरेंसिक संरचना:</strong><br><br>1. <strong>स्तर 1: गणितीय चेकसम</strong> (Verhoeff D5 और ICAO 9303)<br>2. <strong>स्तर 2: ELA हीटमैप</strong> (फोटोशॉप और छेड़छाड़ का पता लगाना)<br>3. <strong>स्तर 3: AIFR बायोमेट्रिक्स</strong> (8-10 साल पुराने फोटो से कपाल की हड्डियों का मिलान)<br>4. <strong>स्तर 4: डिजिटल ट्विन</strong> (सुरक्षित SHA-256 क्यूआर कोड)<br>5. <strong>स्तर 5: कानूनी रिपोर्ट</strong> (BNS धारा 340 के तहत साक्ष्य PDF)",
+        "te": "🏛️ <strong>జన్ రక్షక్ AI యొక్క 5-అంచెల ఫోరెన్సిక్ ఆర్కిటెక్చర్:</strong><br><br>1. <strong>లేయర్ 1: గణిత చెక్‌సమ్స్</strong> (Verhoeff D5 & ICAO 9303)<br>2. <strong>లేయర్ 2: ELA హీట్‌మ్యాప్</strong><br>3. <strong>లేయర్ 3: AIFR ముఖ బయోమెట్రిక్స్</strong> (8-10 సంవత్సరాల వయస్సు అంతరం)<br>4. <strong>లేయర్ 4: డిజిటల్ ట్విన్</strong> (SHA-256 QR కోడ్)<br>5. <strong>లేయర్ 5: చట్టపరమైన నివేదిక</strong> (BNS 340 PDF)",
+        "ta": "🏛️ <strong>ஜன் ரக்ஷக் AI இன் 5-அடுக்கு தடயவியல் அமைப்பு:</strong><br><br>1. கணித சரிபார்ப்பு<br>2. ELA வெப்ப வரைபடம்<br>3. AIFR முக பொருத்தம்<br>4. டிஜிட்டல் இரட்டை QR<br>5. சட்ட அறிக்கை",
+        "bn": "🏛️ <strong>জন রক্ষক AI এর ৫-স্তরীয় আর্কিটেকচার:</strong><br><br>১. গাণিতিক চেকসাম<br>২. ELA কম্প্রেশন হিটম্যাপ<br>৩. AIFR বায়োমেট্রিক্স<br>৪. ডিজিটাল টুইন QR<br>৫. আইনি রিপোর্ট"
+    },
+    "supported_docs": {
+        "en": "📄 <strong>Supported Identity Documents:</strong><br>1. <strong>Indian Aadhaar Card:</strong> 12-digit UID extraction + UIDAI Verhoeff Dihedral D5 Checksum.<br>2. <strong>International & Indian Passports:</strong> 2-line ICAO Doc 9303 MRZ extraction + [7, 3, 1] modulo 10 Checksum.<br>3. <strong>Indian PAN Card:</strong> 10-character alphanumeric structure + Entity validation (Individual, Company, Firm, Trust).",
+        "hi": "📄 <strong>समर्थित दस्तावेज़:</strong><br>1. आधार कार्ड (12-अंक UIDAI Verhoeff D5)<br>2. पासपोर्ट (ICAO 9303 MRZ [7, 3, 1])<br>3. पैन कार्ड (आयकर विभाग सत्यापन)",
+        "te": "📄 <strong>మద్దతు ఉన్న పత్రాలు:</strong><br>1. ఆధార్ కార్డు (12 అంకెల వెర్హోఫ్ D5)<br>2. పాస్‌పోర్ట్ (ICAO 9303 MRZ)<br>3. పాన్ కార్డు (PAN స్ట్రక్చర్)",
+        "ta": "📄 <strong>ஆதரிக்கப்படும் ஆவணங்கள்:</strong><br>1. ஆதார் அட்டை<br>2. பாஸ்போர்ட்<br>3. பான் கார்டு",
+        "bn": "📄 <strong>সমর্থিত নথি:</strong><br>১. আধার কার্ড<br>২. পাসপোর্ট<br>৩. প্যান কার্ড"
     }
 }
 
@@ -133,11 +147,15 @@ def answer_copilot_query(query: str, lang: str = "en", scan_context: dict = None
 
     # Quick topic matching for instant responses
     q_low = query.lower()
-    if any(k in q_low for k in ["digital twin", "twin", "qr", "smart card", "డిజిటల్", "डिजिटल"]):
+    if any(k in q_low for k in ["5 layer", "five layer", "layers", "architecture", "overview", "system", "అంచెల", "संरचना"]):
+        return OFFLINE_KNOWLEDGE["layers"].get(lang, OFFLINE_KNOWLEDGE["layers"]["en"])
+    elif any(k in q_low for k in ["supported", "what document", "types of id", "documents can", "పత్రాలు", "दस्तावेज़"]):
+        return OFFLINE_KNOWLEDGE["supported_docs"].get(lang, OFFLINE_KNOWLEDGE["supported_docs"]["en"])
+    elif any(k in q_low for k in ["digital twin", "twin", "qr", "smart card", "డిజిటల్", "डिजिटल"]):
         return OFFLINE_KNOWLEDGE["digital_twin"].get(lang, OFFLINE_KNOWLEDGE["digital_twin"]["en"])
     elif any(k in q_low for k in ["face", "biometric", "age", "gap", "year", "cranial", "bone", "liveness", "spoof", "aifr", "बायोमेट्रिक", "ముఖం", "முகம்", "বায়োমেট্রিক"]):
         return OFFLINE_KNOWLEDGE["biometrics"].get(lang, OFFLINE_KNOWLEDGE["biometrics"]["en"])
-    elif any(k in q_low for k in ["how to scan", "how do i scan", "scan document", "how to use", "steps", "guide", "స్కాన్", "स्कैन", "ஸ்கேன்"]):
+    elif any(k in q_low for k in ["how to scan", "how do i scan", "scan document", "how to use", "steps", "guide", "navigate", "help", "స్కాన్", "स्कैन", "ஸ்கேன்"]):
         return OFFLINE_KNOWLEDGE["scan"].get(lang, OFFLINE_KNOWLEDGE["scan"]["en"])
     elif any(k in q_low for k in ["ela", "heatmap", "thermal", "compression", "residual", "हीटमैप"]):
         return OFFLINE_KNOWLEDGE["ela"].get(lang, OFFLINE_KNOWLEDGE["ela"]["en"])
