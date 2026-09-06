@@ -353,6 +353,11 @@
               </div>
 
               <div class="flex items-center space-x-2">
+                <button onclick="captureDocumentFromCamera()" id="btnCaptureDoc" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-lg border border-emerald-400 flex items-center space-x-1.5 shadow-md shadow-emerald-900/50 transition-all">
+                  <i data-lucide="aperture" class="w-4 h-4 text-white"></i>
+                  <span id="btnCaptureText">Capture & Scan ID</span>
+                </button>
+
                 <button onclick="toggleCamera()" id="btnCamera" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-1.5 rounded-lg border border-slate-600 flex items-center space-x-1.5 transition-all">
                   <i data-lucide="camera" class="w-4 h-4 text-blue-400"></i>
                   <span id="btnCameraText">Live Camera</span>
@@ -1061,33 +1066,99 @@
       const docPreviewImg = document.getElementById('docPreviewImg');
       const statusText = document.getElementById('cameraStatus');
       const btnText = document.getElementById('btnCameraText');
+      const btnCapture = document.getElementById('btnCaptureDoc');
 
       if (!isCameraActive) {
         try {
-          mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const constraints = {
+            video: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 }
+            }
+          };
+          try {
+            mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+          } catch (e) {
+            mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          }
           video.srcObject = mediaStream;
-          video.play();
+          await video.play();
           video.classList.remove('hidden');
-          canvasContainer.classList.add('hidden');
-          docPreviewImg.classList.add('hidden');
-          statusText.innerText = "Camera Active (1080p)";
-          btnText.innerText = "Stop Camera";
+          if (canvasContainer) canvasContainer.classList.add('hidden');
+          if (docPreviewImg) docPreviewImg.classList.add('hidden');
+          if (btnCapture) btnCapture.classList.remove('hidden');
+          if (statusText) statusText.innerText = "🔴 Camera Active (Align ID & Click Capture)";
+          if (btnText) btnText.innerText = "Stop Camera";
           isCameraActive = true;
+          lucide.createIcons();
         } catch (err) {
-          alert("Camera access denied.");
+          console.error("Camera access error:", err);
+          alert("Camera access denied or webcam not available. Please allow camera permissions in your browser.");
         }
       } else {
-        if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
-        video.classList.add('hidden');
-        if (customUploadedImageData) {
-          docPreviewImg.classList.remove('hidden');
-        } else {
-          canvasContainer.classList.remove('hidden');
-        }
-        statusText.innerText = "Camera Off";
-        btnText.innerText = "Live Camera";
-        isCameraActive = false;
+        stopScannerCamera();
       }
+    }
+
+    function stopScannerCamera() {
+      const video = document.getElementById('scannerVideo');
+      const canvasContainer = document.getElementById('docCanvasContainer');
+      const docPreviewImg = document.getElementById('docPreviewImg');
+      const statusText = document.getElementById('cameraStatus');
+      const btnText = document.getElementById('btnCameraText');
+      const btnCapture = document.getElementById('btnCaptureDoc');
+
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(t => t.stop());
+        mediaStream = null;
+      }
+      if (video) video.classList.add('hidden');
+      if (btnCapture) btnCapture.classList.add('hidden');
+
+      if (customUploadedImageData) {
+        if (docPreviewImg) docPreviewImg.classList.remove('hidden');
+      } else {
+        if (canvasContainer) canvasContainer.classList.remove('hidden');
+      }
+      if (statusText) statusText.innerText = "Camera Ready";
+      if (btnText) btnText.innerText = "Live Camera";
+      isCameraActive = false;
+      lucide.createIcons();
+    }
+
+    async function captureDocumentFromCamera() {
+      const video = document.getElementById('scannerVideo');
+      const statusText = document.getElementById('cameraStatus');
+      if (!video || video.readyState < 2) {
+        alert("Camera stream is loading. Please wait a moment and click Capture again.");
+        return;
+      }
+
+      // Snapshot at native video resolution
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+
+      // Shutter flash effect
+      const flash = document.createElement('div');
+      flash.className = "absolute inset-0 bg-white/80 z-30 transition-opacity duration-300 pointer-events-none";
+      video.parentElement.appendChild(flash);
+      setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 300);
+      }, 100);
+
+      // Stop camera and process captured photo
+      stopScannerCamera();
+      if (statusText) statusText.innerText = "Processing Scanned ID...";
+
+      await processDocumentScan(blob, dataUrl, "live_camera_document.jpg");
     }
 
     let isBioCamActive = false;
@@ -1125,118 +1196,158 @@
       }
     }
 
-    // 🚀 DUAL-MODE FILE UPLOAD (Real AI Backend + Real Pixel ELA)
+    // 🚀 UNIFIED FORENSIC SCAN ENGINE (File Upload & Live Camera Capture)
+    async function processDocumentScan(fileOrBlob, dataUrl, fileName) {
+      customUploadedImageData = dataUrl;
+      customUploadedFileName = fileName;
+
+      if (isCameraActive) stopScannerCamera();
+
+      // 1. Update Preview & Sliders
+      const docPreviewImg = document.getElementById('docPreviewImg');
+      const canvasContainer = document.getElementById('docCanvasContainer');
+      const sliderOriginalImg = document.getElementById('sliderOriginalImg');
+      const sliderDemoGraphic = document.getElementById('sliderDemoGraphic');
+      const cardHolderImg = document.getElementById('cardHolderImg');
+      const cardHolderPlaceholder = document.getElementById('cardHolderPlaceholder');
+      const bioDocPhoto = document.getElementById('bioDocPhoto');
+      const bioDocDefaultIcon = document.getElementById('bioDocDefaultIcon');
+      const docTypeLabel = document.getElementById('docTypeLabel');
+
+      if (docPreviewImg) {
+        docPreviewImg.src = dataUrl;
+        docPreviewImg.classList.remove('hidden');
+      }
+      if (canvasContainer) canvasContainer.classList.add('hidden');
+
+      if (sliderOriginalImg) {
+        sliderOriginalImg.src = dataUrl;
+        sliderOriginalImg.classList.remove('hidden');
+      }
+      if (sliderDemoGraphic) sliderDemoGraphic.classList.add('hidden');
+
+      if (cardHolderImg) {
+        cardHolderImg.src = dataUrl;
+        cardHolderImg.classList.remove('hidden');
+      }
+      if (cardHolderPlaceholder) cardHolderPlaceholder.classList.add('hidden');
+
+      if (bioDocPhoto) {
+        bioDocPhoto.src = dataUrl;
+        bioDocPhoto.classList.remove('hidden');
+      }
+      if (bioDocDefaultIcon) bioDocDefaultIcon.classList.add('hidden');
+
+      // 2. Compute Real Client-Side Pixel ELA Heatmap
+      generateRealELA(dataUrl);
+
+      if (docTypeLabel) docTypeLabel.innerText = `[Analyzing Document Forensics...] ${fileName}`;
+      const statusText = document.getElementById('cameraStatus');
+      if (statusText) statusText.innerText = "Running AI & Mathematical Forensics...";
+
+      // 3. Query Live Python FastAPI Backend (EasyOCR + ResNet-18 ELA + Checksums)
+      try {
+        const formData = new FormData();
+        formData.append("file", fileOrBlob, fileName);
+        formData.append("doc_type", "auto");
+
+        console.log("📡 Sending image to Python Backend http://127.0.0.1:8000/api/verify-document ...");
+        const response = await fetch("http://127.0.0.1:8000/api/verify-document", {
+          method: "POST",
+          body: formData
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("✅ Live AI Backend Verdict & OCR:", data);
+
+          if (data.ela_base64) {
+            const sliderELAImg = document.getElementById('sliderELAImg');
+            if (sliderELAImg) {
+              sliderELAImg.src = data.ela_base64;
+              sliderELAImg.classList.remove('hidden');
+              const elaCanvas = document.getElementById('elaCanvas');
+              if (elaCanvas) elaCanvas.classList.add('hidden');
+            }
+          }
+
+          const ocr = data.ocr_data || {};
+          const isAuthentic = data.is_authentic;
+          const docType = ocr.doc_type || "National Identity Document";
+
+          let sampleKey = "genuine-passport";
+          if (docType.includes("Aadhaar")) {
+            sampleKey = isAuthentic ? "genuine-aadhaar" : "forged-aadhaar";
+          } else {
+            sampleKey = isAuthentic ? "genuine-passport" : "forged-passport";
+          }
+
+          runForensicCheck(sampleKey, false);
+
+          if (ocr.doc_number) {
+            document.getElementById('docNumVal').innerText = ocr.doc_number;
+            const cardDocNum = document.getElementById('cardDocNum');
+            if (cardDocNum) cardDocNum.innerText = ocr.doc_number;
+          }
+          if (ocr.dob) {
+            document.getElementById('docDobVal').innerText = ocr.dob;
+            const cardDob = document.getElementById('cardDob');
+            if (cardDob) cardDob.innerText = ocr.dob;
+          }
+          if (ocr.name) {
+            document.getElementById('docNameVal').innerText = ocr.name;
+            document.getElementById('bioHolderLabel').innerText = ocr.name;
+            const cardHolderName = document.getElementById('cardHolderName');
+            if (cardHolderName) cardHolderName.innerText = ocr.name;
+          }
+          if (ocr.mrz_line1 && ocr.mrz_line2) {
+            document.getElementById('mrzLine1').innerText = ocr.mrz_line1;
+            document.getElementById('mrzLine2').innerText = ocr.mrz_line2;
+          }
+
+          document.getElementById('docTypeLabel').innerText = `[OCR Detected: ${docType}] File: ${fileName}`;
+
+          const chkMRZ = document.getElementById('chkMRZ');
+          const chkVerhoeff = document.getElementById('chkVerhoeff');
+          if (docType.includes("Aadhaar")) {
+            chkMRZ.innerText = "N/A (Aadhaar UID)";
+            chkMRZ.className = "font-bold text-slate-400";
+            chkVerhoeff.innerText = ocr.is_checksum_valid ? "✓ VALID D5 PARITY" : "✗ FAILED (Dihedral D5 Parity)";
+            chkVerhoeff.className = ocr.is_checksum_valid ? "font-bold text-emerald-700" : "font-bold text-red-600";
+          } else if (docType.includes("Passport")) {
+            chkMRZ.innerText = ocr.is_checksum_valid ? "✓ PASSED (7-3-1 Mod 10)" : "✗ FAILED (Checksum Mismatch)";
+            chkMRZ.className = ocr.is_checksum_valid ? "font-bold text-emerald-700" : "font-bold text-red-600";
+            chkVerhoeff.innerText = "N/A (Passport MRZ)";
+            chkVerhoeff.className = "font-bold text-slate-400";
+          }
+
+          const scoreVal = document.getElementById('trustScoreVal');
+          if (isAuthentic) {
+            scoreVal.innerText = data.trust_score || data.ela_confidence;
+            scoreVal.className = "text-2xl font-mono font-black text-emerald-700";
+          } else {
+            scoreVal.innerText = (data.trust_score || data.ela_confidence) + " (Tampered/Failed)";
+            scoreVal.className = "text-xl font-mono font-black text-red-600";
+          }
+          if (statusText) statusText.innerText = "Scan Complete";
+          return;
+        }
+      } catch (err) {
+        console.warn("⚠️ Backend offline. Falling back to edge client inspection.", err);
+      }
+
+      // Fallback
+      runForensicCheck(currentSelectedTestCase, false);
+      if (statusText) statusText.innerText = "Scan Complete (Offline Mode)";
+    }
+
     async function handleFileUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = async function(e) {
-        customUploadedImageData = e.target.result;
-        customUploadedFileName = file.name;
-        
-        if (isCameraActive) toggleCamera();
-
-        // 1. Instantly Compute & Display REAL Pixel ELA of this exact uploaded image!
-        generateRealELA(customUploadedImageData);
-
-        // 2. Query Live Python FastAPI Backend
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("doc_type", "auto");
-
-          console.log("📡 Sending image to Python Backend http://127.0.0.1:8000/api/verify-document ...");
-          const response = await fetch("http://127.0.0.1:8000/api/verify-document", {
-            method: "POST",
-            body: formData
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            console.log("✅ Live AI Backend Verdict & OCR:", data);
-            
-            // If backend returned neural ELA heatmap, render it on the slider
-            if (data.ela_base64) {
-              const sliderELAImg = document.getElementById('sliderELAImg');
-              if (sliderELAImg) {
-                sliderELAImg.src = data.ela_base64;
-                sliderELAImg.classList.remove('hidden');
-                const elaCanvas = document.getElementById('elaCanvas');
-                if (elaCanvas) elaCanvas.classList.add('hidden');
-              }
-            }
-
-            const ocr = data.ocr_data || {};
-            const isAuthentic = data.is_authentic;
-            const docType = ocr.doc_type || (currentSelectedTestCase.includes("aadhaar") ? "Aadhaar Card" : "Passport");
-            
-            // Choose template base
-            let sampleKey = "genuine-passport";
-            if (docType.includes("Aadhaar")) {
-              sampleKey = isAuthentic ? "genuine-aadhaar" : "forged-aadhaar";
-            } else {
-              sampleKey = isAuthentic ? "genuine-passport" : "forged-passport";
-            }
-            
-            runForensicCheck(sampleKey, false);
-
-            // Populate Extracted OCR details into UI
-            if (ocr.doc_number) {
-              document.getElementById('docNumVal').innerText = ocr.doc_number;
-              const cardDocNum = document.getElementById('cardDocNum');
-              if (cardDocNum) cardDocNum.innerText = ocr.doc_number;
-            }
-            if (ocr.dob) {
-              document.getElementById('docDobVal').innerText = ocr.dob;
-              const cardDob = document.getElementById('cardDob');
-              if (cardDob) cardDob.innerText = ocr.dob;
-            }
-            if (ocr.name) {
-              document.getElementById('docNameVal').innerText = ocr.name;
-              document.getElementById('bioHolderLabel').innerText = ocr.name;
-              const cardHolderName = document.getElementById('cardHolderName');
-              if (cardHolderName) cardHolderName.innerText = ocr.name;
-            }
-            if (ocr.mrz_line1 && ocr.mrz_line2) {
-              document.getElementById('mrzLine1').innerText = ocr.mrz_line1;
-              document.getElementById('mrzLine2').innerText = ocr.mrz_line2;
-            }
-            
-            document.getElementById('docTypeLabel').innerText = `[OCR Detected: ${docType}] File: ${file.name}`;
-            
-            // Checksum status badges
-            const chkMRZ = document.getElementById('chkMRZ');
-            const chkVerhoeff = document.getElementById('chkVerhoeff');
-            if (docType.includes("Aadhaar")) {
-              chkMRZ.innerText = "N/A (Aadhaar UID)";
-              chkMRZ.className = "font-bold text-slate-400";
-              chkVerhoeff.innerText = ocr.is_checksum_valid ? "✓ VALID D5 PARITY" : "✗ FAILED (Dihedral D5 Parity)";
-              chkVerhoeff.className = ocr.is_checksum_valid ? "font-bold text-emerald-700" : "font-bold text-red-600";
-            } else if (docType.includes("Passport")) {
-              chkMRZ.innerText = ocr.is_checksum_valid ? "✓ PASSED (7-3-1 Mod 10)" : "✗ FAILED (Checksum Mismatch)";
-              chkMRZ.className = ocr.is_checksum_valid ? "font-bold text-emerald-700" : "font-bold text-red-600";
-              chkVerhoeff.innerText = "N/A (Passport MRZ)";
-              chkVerhoeff.className = "font-bold text-slate-400";
-            }
-
-            // Display live dynamic AI confidence & trust score
-            const scoreVal = document.getElementById('trustScoreVal');
-            if (isAuthentic) {
-              scoreVal.innerText = data.trust_score || data.ela_confidence;
-              scoreVal.className = "text-2xl font-mono font-black text-emerald-700";
-            } else {
-              scoreVal.innerText = (data.trust_score || data.ela_confidence) + " (Tampered/Failed)";
-              scoreVal.className = "text-xl font-mono font-black text-red-600";
-            }
-            return;
-          }
-        } catch (err) {
-          console.warn("⚠️ Backend offline. Falling back to edge client inspection.", err);
-        }
-
-        // Fallback
-        runForensicCheck(currentSelectedTestCase, false);
+        await processDocumentScan(file, e.target.result, file.name);
       };
       reader.readAsDataURL(file);
     }
@@ -2002,6 +2113,7 @@
         autoFrame: "AUTO-FRAME GUIDE",
         aiActive: "AI FORENSICS ACTIVE",
         btnCamera: "Live Camera",
+        btnCaptureDoc: "Capture & Scan ID",
         btnUpload: "Upload ID",
         demoTitle: "Pre-loaded Demo Test Cases",
         demo1Click: "1-Click Test",
@@ -2112,7 +2224,9 @@
         scannerSubtext: "బయోమెట్రిక్స్‌కు వెళ్లే ముందు ICAO MRZ, UIDAI వెర్హోఫ్ మరియు ELA విశ్లేషణను ధృవీకరించండి.",
         autoFrame: "ఆటో-ఫ్రేమ్ గైడ్",
         aiActive: "AI ఫోరెన్సిక్స్ సక్రియం",
+        // Telugu
         btnCamera: "లైవ్ కెమెరా",
+        btnCaptureDoc: "ఫోటో తీసి స్కాన్ చేయండి",
         btnUpload: "ID అప్‌లోడ్ చేయండి",
         demoTitle: "డెమో పరీక్షా కేసులు",
         demo1Click: "1-క్లిక్ పరీక్ష",
@@ -2223,7 +2337,9 @@
         scannerSubtext: "बायोमेट्रिक्स पर जाने से पहले ICAO MRZ, UIDAI वेरहोफ और ELA की पुष्टि करें।",
         autoFrame: "ऑटो-फ्रेम गाइड",
         aiActive: "एआई फॉरेंसिक्स सक्रिय",
+        // Hindi
         btnCamera: "लाइव कैमरा",
+        btnCaptureDoc: "फोटो लें और स्कैन करें",
         btnUpload: "आईडी अपलोड करें",
         demoTitle: "डेमो परीक्षण मामले",
         demo1Click: "1-क्लिक टेस्ट",
@@ -2335,6 +2451,7 @@
         autoFrame: "தானியங்கி சட்ட வழிகாட்டி",
         aiActive: "AI தடயவியல் செயலில் உள்ளது",
         btnCamera: "நேரலை கேமரா",
+        btnCaptureDoc: "புகைப்படம் எடுத்து ஸ்கேன் செய்க",
         btnUpload: "ஆவணத்தை பதிவேற்றவும்",
         demoTitle: "முன் ஏற்றப்பட்ட மாதிரி சோதனைகள்",
         demo1Click: "1-கிளிக் சோதனை",
@@ -2446,6 +2563,7 @@
         autoFrame: "অটো-ফ্রেম গাইড",
         aiActive: "এআই ফরেনসিক সক্রিয়",
         btnCamera: "লাইভ ক্যামেরা",
+        btnCaptureDoc: "ছবি তুলে স্ক্যান করুন",
         btnUpload: "আইডি আপলোড করুন",
         demoTitle: "ডেমো টেস্ট কেস",
         demo1Click: "১-ক্লিক টেস্ট",
@@ -2561,6 +2679,8 @@
       document.getElementById("txt-auto-frame").innerText = dict.autoFrame;
       document.getElementById("txt-ai-active").innerText = dict.aiActive;
       document.getElementById("btnCameraText").innerText = dict.btnCamera;
+      const btnCaptureText = document.getElementById("btnCaptureText");
+      if (btnCaptureText) btnCaptureText.innerText = dict.btnCaptureDoc || "Capture & Scan ID";
       document.getElementById("txt-btn-upload").innerText = dict.btnUpload;
       document.getElementById("txt-demo-title").innerText = dict.demoTitle;
       document.getElementById("txt-1click-test").innerText = dict.demo1Click;
