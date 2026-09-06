@@ -1820,7 +1820,26 @@
         1. <strong>Do NOT return the document</strong> to the bearer.<br>
         2. <strong>Export Forensic PDF Report</strong> from Jan Rakshak AI to log the cryptographic hash.<br>
         3. Detain individual at gate and file Form-4 Incident Report under Section 340 BNS.`,
-        default: `🛡️ <strong>Jan Rakshak AI Copilot:</strong> Document integrity is verified using multi-layer mathematical checksums, ELA heatmaps, and age-invariant biometric matching.`
+        digitalTwin: `🪪 <strong>Verified Digital Twin (Smart e-ID):</strong><br>
+        When a document passes all forensic checks (Verhoeff/MRZ Checksum + ELA Noise Analysis), the system generates a tamper-proof <strong>Digital Twin Smart Card</strong> equipped with an encrypted <strong>SHA-256 QR Code</strong>. Checkpoint officers can scan this QR code on offline hand-held terminals to verify the bearer instantly without contacting central servers.`,
+        biometrics: `👤 <strong>Age-Invariant Face Recognition (AIFR) over an 8-Year Gap:</strong><br>
+        • <strong>Why Standard AI Fails:</strong> Surface features (skin wrinkles, hair, weight, beard) change over time.<br>
+        • <strong>The Cranial Bone Solution:</strong> Jan Rakshak AI extracts <strong>Permanent Skull Landmark Ratios</strong> (inter-pupillary eye distance, eye-to-nose drop ratio, and jawbone triangle). Adult skull geometry remains mathematically constant after age 18.<br>
+        • <strong>3D Liveness:</strong> Laplacian micro-texture variance detects and blocks 2D photo prints and digital screen spoofs!`,
+        scan: `📄 <strong>How to Scan a Document on Jan Rakshak AI:</strong><br>
+        1. Click the <strong>'1. Document Scanner'</strong> tab.<br>
+        2. Click <strong>'Upload ID'</strong> or <strong>'Live Camera'</strong> to input an Aadhaar, Passport, or PAN.<br>
+        3. The system executes EasyOCR and verifies mathematical checksums.<br>
+        4. Drag the <strong>ELA Heatmap Slider</strong> to check for Photoshopped modifications.<br>
+        5. Click <strong>'Proceed to Biometrics →'</strong> to match the live bearer!`,
+        ela: `🔬 <strong>How ELA (Error Level Analysis) Works:</strong><br>
+        • <strong>Dark / Uniform pixels</strong> = Authentic unmodified image.<br>
+        • <strong>Glowing Red / Bright Hotspot</strong> = Spliced, copy-pasted, or Photoshopped text/dates.<br>
+        • Drag the comparison slider horizontally over the ID to reveal compression disparities.`,
+        pdf: `📑 <strong>Courtroom-Admissible PDF Audit Report:</strong><br>
+        Click <strong>'Export Comprehensive Forensic Report'</strong> or <strong>'Print Audit'</strong> to generate an official cryptographic evidence document containing timestamps, check-digit breakdowns, ELA matrices, and SHA-256 digital signatures for court submission.`,
+        guardrail: `⚠️ <strong>Access Denied (Sovereign Node Guardrail):</strong> Jan Rakshak AI Copilot is strictly restricted to identity document forensics, mathematical checksums, ELA analysis, and Indian penal laws (BNS / Aadhaar Act).`,
+        default: `🛡️ <strong>Jan Rakshak AI Copilot:</strong> I can assist you with any feature on this platform: <strong>1. Document Scanner</strong>, <strong>2. ELA Heatmaps</strong>, <strong>3. Verhoeff/MRZ Checksums</strong>, <strong>4. AIFR Face Biometrics</strong>, <strong>5. Verified Digital Twins</strong>, and <strong>6. BNS Legal Framework</strong>.`
       }
     };
 
@@ -1828,11 +1847,37 @@
       const lower = q.toLowerCase();
       const langPack = aiKnowledge[currentLang] || aiKnowledge.en;
 
+      // Guardrail check for off-topic questions
+      const offTopic = ['joke', 'poem', 'song', 'game', 'recipe', 'president', 'weather', 'movie', 'malware'];
+      if (offTopic.some(k => lower.includes(k))) {
+        return langPack.guardrail || aiKnowledge.en.guardrail;
+      }
+
+      if (lower.includes('digital twin') || lower.includes('twin') || lower.includes('qr') || lower.includes('smart card')) {
+        return langPack.digitalTwin || aiKnowledge.en.digitalTwin;
+      }
+
+      if (lower.includes('face') || lower.includes('biometric') || lower.includes('age') || lower.includes('gap') || lower.includes('year') || lower.includes('aifr') || lower.includes('cranial') || lower.includes('bone') || lower.includes('liveness')) {
+        return langPack.biometrics || aiKnowledge.en.biometrics;
+      }
+
+      if (lower.includes('scan') || lower.includes('how to use') || lower.includes('upload') || lower.includes('camera') || lower.includes('step')) {
+        return langPack.scan || aiKnowledge.en.scan;
+      }
+
+      if (lower.includes('ela') || lower.includes('heatmap') || lower.includes('thermal') || lower.includes('compression') || lower.includes('slider')) {
+        return langPack.ela || aiKnowledge.en.ela;
+      }
+
+      if (lower.includes('pdf') || lower.includes('report') || lower.includes('print') || lower.includes('court') || lower.includes('export') || lower.includes('audit')) {
+        return langPack.pdf || aiKnowledge.en.pdf;
+      }
+
       if (lower.includes('law') || lower.includes('bns') || lower.includes('ipc') || lower.includes('penalty') || lower.includes('punish') || lower.includes('చట్టం') || lower.includes('कानून') || lower.includes('சட்டம்') || lower.includes('আইন')) {
         return langPack.law;
       }
       
-      if (lower.includes('mrz') || lower.includes('7-3-1') || lower.includes('checksum') || lower.includes('గణితం') || lower.includes('गणित') || lower.includes('கணிதம்') || lower.includes('সূত্র')) {
+      if (lower.includes('mrz') || lower.includes('7-3-1') || lower.includes('checksum') || lower.includes('verhoeff') || lower.includes('d5') || lower.includes('aadhaar') || lower.includes('passport') || lower.includes('pan') || lower.includes('గణితం') || lower.includes('गणित') || lower.includes('கணிதம்') || lower.includes('সূত্র')) {
         return langPack.mrz;
       }
 

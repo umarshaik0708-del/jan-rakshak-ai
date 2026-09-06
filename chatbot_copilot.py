@@ -89,6 +89,27 @@ OFFLINE_KNOWLEDGE = {
         "te": "🔬 <strong>ELA ఎలా పనిచేస్తుంది:</strong><br>• <strong>చీకటి / స్థిరమైన నాయిస్</strong> = అసలైన పత్రం.<br>• <strong>ప్రకాశవంతమైన ఎరుపు హాట్‌స్పాట్</strong> = ఫోటోషాప్ చేయబడిన ప్రాంతం.<br>• తేడాలను చూడటానికి స్లైడర్‌ను లాగండి.",
         "ta": "🔬 <strong>ELA எவ்வாறு இயங்குகிறது:</strong><br>• <strong>இருண்ட பகுதி</strong> = உண்மையான ஆவணம்.<br>• <strong>பிரகாசமான சிவப்பு பகுதி</strong> = திருத்தப்பட்ட இடம்.<br>• வேறுபாடுகளைக் காண ஸ்லைடரை இழுக்கவும்.",
         "bn": "🔬 <strong>ELA কীভাবে কাজ করে:</strong><br>• <strong>অন্ধকার অংশ</strong> = আসল নথি।<br>• <strong>উজ্জ্বল লাল হটস্পট</strong> = ফটোশপ করা অংশ।"
+    },
+    "biometrics": {
+        "en": "👤 <strong>Age-Invariant Face Recognition (AIFR) over 8-10 Year Age Gap:</strong><br>• <strong>Why Standard AI Fails:</strong> Surface features (skin wrinkles, hair, beard, weight) change with age.<br>• <strong>The Cranial Bone Solution:</strong> Jan Rakshak AI extracts <strong>Permanent Skull & Bone Ratios</strong> (Inter-pupillary eye distance, eye-to-nose drop ratio, and jawbone triangle) which remain mathematically constant throughout an adult's life.<br>• <strong>3D Liveness:</strong> Laplacian micro-texture variance detects and blocks 2D paper printouts and digital screen spoofs.",
+        "hi": "👤 <strong>8-10 साल के अंतराल में चेहरे का मिलान (AIFR):</strong><br>• उम्र बढ़ने पर त्वचा और बाल बदल जाते हैं, लेकिन <strong>कपाल की हड्डियों की संरचना (Cranial Bone Structure)</strong> नहीं बदलती।<br>• जन रक्षक AI पुतली की दूरी, नाक और जबड़े के अनुपात का मिलान करके 8-10 साल पुराने फोटो से भी सही व्यक्ति की पहचान करता है।<br>• <strong>3D लाइवनेस:</strong> 2D फोटो प्रिंट या स्क्रीन के धोखे को तुरंत पकड़ता है।",
+        "te": "👤 <strong>8-10 సంవత్సరాల వయస్సు తేడాతో ముఖాన్ని ఎలా సరిపోలుస్తారు (AIFR):</strong><br>• వయస్సు పెరిగే కొద్దీ చర్మం మరియు జుట్టు మారవచ్చు, కానీ <strong>పుర్రె ఎముకల నిర్మాణం (Cranial Bone Structure)</strong> మారదు.<br>• జన్ రక్షక్ AI కళ్ల దూరం, ముక్కు మరియు దవడ నిష్పత్తిని లెక్కించి 8-10 ఏళ్ల పాత ఫోటోతో కూడా అసలైన వ్యక్తిని గుర్తిస్తుంది.",
+        "ta": "👤 <strong>8-10 வருட வயது இடைவெளியில் முக பொருத்தம் (AIFR):</strong><br>• வயது ஏறினாலும் மண்டை ஓட்டு எலும்பு அமைப்பு மாறுவதில்லை.<br>• கண் இடைவெளி மற்றும் தாடை அமைப்பை AIFR ஒப்பிட்டு துல்லியமாக சரிபார்க்கிறது.",
+        "bn": "👤 <strong>৮-১০ বছরের বয়সের পার্থক্যে মুখ শনাক্তকরণ (AIFR):</strong><br>• বয়স বাড়লেও মাথার খুলির হাড়ের কাঠামো পরিবর্তন হয় না। AIFR এর মাধ্যমে সঠিক ব্যক্তি শনাক্ত করা হয়।"
+    },
+    "digital_twin": {
+        "en": "🪪 <strong>Verified Digital Twin (Smart e-ID):</strong><br>When a document passes all forensic checks (Verhoeff/MRZ Checksum + ELA Noise Analysis), the system generates a tamper-proof <strong>Digital Twin Smart Card</strong> equipped with an encrypted <strong>SHA-256 QR Code</strong>. Checkpoint officers can scan this QR code on offline hand-held terminals to verify the bearer instantly without contacting central servers.",
+        "hi": "🪪 <strong>सत्यापित डिजिटल ट्विन (स्मार्ट ई-पहचान पत्र):</strong><br>जब कोई दस्तावेज़ सभी जांचों को पास कर लेता है, तो सिस्टम एक सुरक्षित <strong>डिजिटल ट्विन स्मार्ट कार्ड</strong> और <strong>SHA-256 एन्क्रिप्टेड क्यूआर कोड</strong> बनाता है जिसे बिना इंटरनेट के भी सत्यापित किया जा सकता है।",
+        "te": "🪪 <strong>వెరిఫైడ్ డిజిటల్ ట్విన్ (స్మార్ట్ e-ID):</strong><br>పత్రం అన్ని పరీక్షలలో ఉత్తీర్ణమైనప్పుడు, సిస్టమ్ ఒక సురక్షితమైన <strong>డిజిటల్ ట్విన్ స్మార్ట్ కార్డ్</strong> మరియు <strong>SHA-256 QR కోడ్</strong>ను రూపొందిస్తుంది.",
+        "ta": "🪪 <strong>சரிபார்க்கப்பட்ட டிஜிட்டல் இரட்டை (ஸ்மார்ட் இ-ஐடி):</strong><br>ஆவணம் வெற்றிகரமாக சரிபார்க்கப்பட்டதும், கணினி <strong>SHA-256 QR குறியீட்டுடன்</strong> கூடிய டிஜிட்டல் ஸ்மார்ட் கார்டை உருவாக்குகிறது.",
+        "bn": "🪪 <strong>যাচাইকৃত ডিজিটাল টুইন:</strong><br>নথি যাচাইয়ের পর একটি সুরক্ষিত ডিজিটাল স্মার্ট কার্ড এবং <strong>SHA-256 কিউআর কোড</strong> তৈরি করা হয়।"
+    },
+    "pdf": {
+        "en": "📑 <strong>Courtroom-Admissible PDF Audit Report:</strong><br>Click <strong>'Export Comprehensive Forensic Report'</strong> or <strong>'Print Audit'</strong> to generate an official cryptographic evidence document containing timestamps, check-digit breakdowns, ELA matrices, and SHA-256 digital signatures for court submission.",
+        "hi": "📑 <strong>न्यायालय-मान्य फॉरेंसिक PDF रिपोर्ट:</strong><br><strong>'फॉरेंसिक रिपोर्ट निर्यात करें'</strong> पर क्लिक करके आधिकारिक डिजिटल हस्ताक्षरित रिपोर्ट प्राप्त करें।",
+        "te": "📑 <strong>కోర్టు ఆధారిత ఫోరెన్సిక్ PDF నివేదిక:</strong><br>అధికారిక డిజిటల్ సంతకం మరియు SHA-256 హ్యాష్‌తో కూడిన నివేదికను డౌన్‌లోడ్ చేయండి.",
+        "ta": "📑 <strong>நீதிமன்ற சான்றளிக்கப்பட்ட PDF அறிக்கை:</strong><br>அதிகாரப்பூர்வ டிஜிட்டல் கையொப்பத்துடன் கூடிய தடயவியல் அறிக்கையை பதிவிறக்கவும்.",
+        "bn": "📑 <strong>আদালতে পেশযোগ্য ফরেনসিক PDF রিপোর্ট:</strong><br>ডিজিটাল স্বাক্ষরযুক্ত পূর্ণাঙ্গ অডিট রিপোর্ট ডাউনলোড করুন।"
     }
 }
 
@@ -112,10 +133,16 @@ def answer_copilot_query(query: str, lang: str = "en", scan_context: dict = None
 
     # Quick topic matching for instant responses
     q_low = query.lower()
-    if any(k in q_low for k in ["how to scan", "how do i scan", "scan document", "how to use", "steps", "guide", "స్కాన్", "स्कैन", "ஸ்கேன்"]):
+    if any(k in q_low for k in ["digital twin", "twin", "qr", "smart card", "డిజిటల్", "डिजिटल"]):
+        return OFFLINE_KNOWLEDGE["digital_twin"].get(lang, OFFLINE_KNOWLEDGE["digital_twin"]["en"])
+    elif any(k in q_low for k in ["face", "biometric", "age", "gap", "year", "cranial", "bone", "liveness", "spoof", "aifr", "बायोमेट्रिक", "ముఖం", "முகம்", "বায়োমেট্রিক"]):
+        return OFFLINE_KNOWLEDGE["biometrics"].get(lang, OFFLINE_KNOWLEDGE["biometrics"]["en"])
+    elif any(k in q_low for k in ["how to scan", "how do i scan", "scan document", "how to use", "steps", "guide", "స్కాన్", "स्कैन", "ஸ்கேன்"]):
         return OFFLINE_KNOWLEDGE["scan"].get(lang, OFFLINE_KNOWLEDGE["scan"]["en"])
     elif any(k in q_low for k in ["ela", "heatmap", "thermal", "compression", "residual", "हीटमैप"]):
         return OFFLINE_KNOWLEDGE["ela"].get(lang, OFFLINE_KNOWLEDGE["ela"]["en"])
+    elif any(k in q_low for k in ["pdf", "report", "print", "audit", "court", "export", "రిపోర్ట్", "रिपोर्ट"]):
+        return OFFLINE_KNOWLEDGE["pdf"].get(lang, OFFLINE_KNOWLEDGE["pdf"]["en"])
     elif any(k in q_low for k in ["law", "bns", "ipc", "section", "act", "कानून", "చట్టం", "சட்டம்", "আইন"]):
         return OFFLINE_KNOWLEDGE["law"].get(lang, OFFLINE_KNOWLEDGE["law"]["en"])
     elif any(k in q_low for k in ["mrz", "checksum", "verhoeff", "7-3-1", "d5", "गणित", "గణితం", "கணிதம்"]):
