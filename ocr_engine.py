@@ -36,9 +36,10 @@ def get_reader():
 
 def extract_aadhaar_details(text_lines):
     """
-    Extracts 12-digit Aadhaar UID and verifies against Dihedral D5 Verhoeff algorithm.
+    Extracts 12-digit Aadhaar UID, Name, DOB, Gender and verifies against Dihedral D5 Verhoeff algorithm.
     """
-    full_text = " ".join([t[1] for t in text_lines])
+    raw_texts = [t[1].strip() for t in text_lines if t[1].strip()]
+    full_text = " ".join(raw_texts)
     
     # Look for 4 4 4 digit pattern or 12 continuous digits
     aadhaar_pattern = r'\b\d{4}\s?\d{4}\s?\d{4}\b'
@@ -53,21 +54,41 @@ def extract_aadhaar_details(text_lines):
             uid_found = clean_num
             is_valid_verhoeff = validate_aadhaar_verhoeff(clean_num)
             if is_valid_verhoeff:
-                break  # Found validated number
+                break
                 
     # Extract DOB/Year of Birth
-    dob_match = re.search(r'(DOB|D\.O\.B|Birth|Year of Birth|जन्म तिथि|जन्म वर्ष)[:\s]*([0-9]{2}/[0-9]{2}/[0-9]{4}|[0-9]{4})', full_text, re.IGNORECASE)
-    dob = dob_match.group(2) if dob_match else None
+    dob = None
+    dob_match = re.search(r'(?:DOB|D\.O\.B|Birth|Year of Birth|పుట్టిన తేదీ|जन्म तिथि|जन्म वर्ष)[:\s/]*([0-9]{2}[/-][0-9]{2}[/-][0-9]{4}|(?:19|20)[0-9]{2})', full_text, re.IGNORECASE)
+    if dob_match:
+        dob = dob_match.group(1).replace("-", "/")
     
+    if not dob:
+        date_match = re.search(r'\b([0-3][0-9]/[0-1][0-9]/(?:19|20)[0-9]{2})\b', full_text)
+        if date_match:
+            dob = date_match.group(1)
+            
     # Extract Gender
     gender = None
-    g_match = re.search(r'\b(MALE|FEMALE|TRANSGENDER)\b', full_text, re.IGNORECASE)
+    g_match = re.search(r'\b(MALE|FEMALE|TRANSGENDER|పురుషుడు|महिला|पुरुष)\b', full_text, re.IGNORECASE)
     if g_match:
-        gender = g_match.group(1).upper()
+        g_raw = g_match.group(1).lower()
+        gender = "MALE" if any(w in g_raw for w in ["male", "పురుషుడు", "पुरुष"]) else ("FEMALE" if any(w in g_raw for w in ["female", "మహిళ", "महिला"]) else "TRANSGENDER")
         
+    # Extract English Name
+    name = None
+    stop_words = ["GOVERNMENT", "INDIA", "AADHAAR", "MALE", "FEMALE", "DOB", "YEAR", "ENROLMENT", "HELP", "UIDAI", "PROOF", "IDENTITY", "CITIZENSHIP", "SCANNING", "OFFLINE", "COMPLETE", "CAMERA", "UPLOAD", "LIVE"]
+    for t in raw_texts:
+        clean_t = re.sub(r'[^A-Za-z\s]', '', t).strip()
+        words = clean_t.split()
+        if 2 <= len(words) <= 4 and all(len(w) >= 2 for w in words):
+            if not any(sw in clean_t.upper() for sw in stop_words):
+                name = clean_t.upper()
+                break
+                
     return {
         "doc_type": "Aadhaar Card",
         "doc_number": uid_found,
+        "name": name,
         "is_checksum_valid": is_valid_verhoeff,
         "checksum_type": "Verhoeff D5 Checksum",
         "dob": dob,
