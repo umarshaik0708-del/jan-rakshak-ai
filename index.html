@@ -1543,11 +1543,12 @@
       lucide.createIcons();
     }
 
-    async function runLiveFaceMatch() {
+        async function runLiveFaceMatch() {
       const btn = document.getElementById('btnMatchFace');
       const video = document.getElementById('bioWebcamVideo');
       const previewImg = document.getElementById('bioLivePreviewImg');
       const placeholder = document.getElementById('bioLivePlaceholder');
+      let liveBlob = null;
 
       if (isBioCamActive && video && video.readyState >= 2) {
         const canvas = document.createElement('canvas');
@@ -1564,15 +1565,99 @@
         if (bioStream) bioStream.getTracks().forEach(t => t.stop());
         document.getElementById('btnBioCamText').innerText = "Webcam";
         isBioCamActive = false;
+
+        // Convert canvas to Blob for API upload
+        liveBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
       }
 
       btn.disabled = true;
       btn.innerHTML = `
         <i data-lucide="refresh-cw" class="w-3 h-3 animate-spin"></i>
-        <span>Analyzing...</span>
+        <span>Analyzing Biometrics...</span>
       `;
       lucide.createIcons();
 
+      // Query Live Python FastAPI Biometrics Backend
+      try {
+        const docImgElem = document.getElementById('bioDocPhoto');
+        let docBlob = null;
+
+        if (customUploadedImageData) {
+          // Fetch existing uploaded document blob
+          const docRes = await fetch(customUploadedImageData);
+          docBlob = await docRes.blob();
+        }
+
+        if (docBlob && liveBlob) {
+          const formData = new FormData();
+          formData.append("doc_photo", docBlob, "doc.jpg");
+          formData.append("live_photo", liveBlob, "live.jpg");
+
+          console.log("📡 Sending faces to Python Backend http://127.0.0.1:8000/api/verify-biometrics ...");
+          const bioResponse = await fetch("http://127.0.0.1:8000/api/verify-biometrics", {
+            method: "POST",
+            body: formData
+          });
+
+          if (bioResponse.ok) {
+            const bioData = await bioResponse.json();
+            console.log("✅ Live AIFR Biometrics Result:", bioData);
+
+            btn.disabled = false;
+            btn.innerHTML = `
+              <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i>
+              <span id="txt-btn-match-face">${translations[currentLang].btnMatchFace}</span>
+            `;
+
+            // Display live dynamic biometrics results
+            const card = document.getElementById('bioResultCard');
+            const title = document.getElementById('bioVerdictTitle');
+            const scoreVal = document.getElementById('bioScoreVal');
+            const iconBox = document.getElementById('bioVerdictIconBox');
+            const explanation = document.getElementById('bioExplanation');
+            const m1Val = document.getElementById('bioM1Val');
+            const m2Val = document.getElementById('bioM2Val');
+            const m3Val = document.getElementById('bioM3Val');
+
+            if (bioData.is_match) {
+              card.className = "bg-emerald-50 border border-emerald-300 p-5 rounded-2xl text-emerald-900 shadow-sm space-y-3";
+              title.innerText = "BIOMETRIC IDENTITY CONFIRMED (AIFR PASS)";
+              scoreVal.innerText = bioData.match_confidence;
+              scoreVal.className = "text-xl font-mono font-black text-emerald-700";
+              iconBox.className = "w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center";
+              iconBox.innerHTML = '<i data-lucide="check-circle-2" class="w-5 h-5"></i>';
+              explanation.innerText = `Age-Invariant Facial Recognition (AIFR) confirmed matching cranial bone geometry with ${bioData.match_confidence} similarity and ${bioData.liveness_score} 3D anti-spoof liveness.`;
+              m1Val.innerText = bioData.match_confidence;
+              m1Val.className = "font-bold text-emerald-700 text-sm";
+              m2Val.innerText = `${bioData.liveness_score} (${bioData.liveness_verdict})`;
+              m2Val.className = "font-bold text-emerald-700 text-sm";
+              m3Val.innerText = "60% (Age-Adjusted)";
+              m3Val.className = "font-bold text-blue-700 text-sm";
+            } else {
+              card.className = "bg-red-50 border border-red-300 p-5 rounded-2xl text-red-900 shadow-sm space-y-3";
+              title.innerText = "IMPERSONATION OR SPOOF DETECTED (AIFR FAIL)";
+              scoreVal.innerText = bioData.match_confidence;
+              scoreVal.className = "text-xl font-mono font-black text-red-600";
+              iconBox.className = "w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/30";
+              iconBox.innerHTML = '<i data-lucide="shield-alert" class="w-5 h-5"></i>';
+              explanation.innerText = `CRITICAL ALERT: Facial biometric embeddings deviate from reference ID (Similarity: ${bioData.match_confidence}, Liveness: ${bioData.liveness_score}). Bearer is an unauthorized subject.`;
+              m1Val.innerText = `${bioData.match_confidence} (MISMATCH)`;
+              m1Val.className = "font-bold text-red-600 text-sm";
+              m2Val.innerText = `${bioData.liveness_score} (${bioData.liveness_verdict})`;
+              m2Val.className = bioData.liveness_verdict.includes("REAL") ? "font-bold text-emerald-700 text-sm" : "font-bold text-red-600 text-sm";
+              m3Val.innerText = "60% (Threshold)";
+              m3Val.className = "font-bold text-blue-700 text-sm";
+            }
+
+            lucide.createIcons();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("⚠️ Biometrics API offline or fallback:", err);
+      }
+
+      // Offline fallback simulation
       setTimeout(() => {
         btn.disabled = false;
         btn.innerHTML = `

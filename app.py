@@ -9,7 +9,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from mrz_math import verify_passport_mrz
 from verhoeff_math import validate_aadhaar_verhoeff
-
+from biometrics_aifr import match_faces_aifr
 from ocr_engine import process_document_ocr
 
 app = FastAPI(title="Jan Rakshak AI - National Screening Backend", version="2.0")
@@ -131,6 +131,23 @@ async def verify_document(
         "ocr_data": doc_classification,
         "raw_text_extracted": ocr_results.get("raw_text_extracted", [])
     }
+@app.post("/api/verify-biometrics")
+async def verify_biometrics(
+    doc_photo: UploadFile = File(...),
+    live_photo: UploadFile = File(...)
+):
+    """
+    Biometrics Endpoint: Compares Document Reference Face with Live Webcam Selfie.
+    Evaluates Age-Invariant Cosine Metric and 3D Anti-Spoof Liveness.
+    """
+    doc_bytes = await doc_photo.read()
+    live_bytes = await live_photo.read()
+
+    doc_img = Image.open(io.BytesIO(doc_bytes)).convert("RGB")
+    live_img = Image.open(io.BytesIO(live_bytes)).convert("RGB")
+
+    match_result = match_faces_aifr(doc_img, live_img)
+    return match_result
 
 if __name__ == "__main__":
     import uvicorn
